@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Générateur de Prompt par Fabrice Heuvrard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 80px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            margin-top: 60px;
+        }
+
+        h2 {
+            font-size: 18px;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #333;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 40px;
+        }
+
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 9l4-6H2z' fill='%23333'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right center;
+            background-size: 12px 12px;
+        }
+
+        input[type="button"] {
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+		.copy-button {
+			padding: 10px 20px;
+			margin-top: 15px;
+			font-size: 16px;
+			background-color: #4CAF50;
+			color: #fff;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+		}
+
+        #result {
+            margin-top: 30px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Générateur de Prompt par Fabrice Heuvrard</h1>
+        <form id="promptForm">
+            <label for="contexte">Contexte spécifique :</label>
+            <input type="text" id="contexte" name="contexte" placeholder="Je suis en train de planifier un voyage en Italie">
+			
+            <label for="Format">Format attendu</label>
+            <select id="Format" name="Format attendu">
+                <option value="">-- Sélectionnez --</option>
+                <option value="Tweet">Tweet avec smiley</option>
+                <option value="Emails">Emails</option>
+                <option value="Article">Article</option>
+            </select>			
+			
+		
+            <label for="longueur">Longueur de réponse :</label>
+            <select id="longueur" name="Longueur de réponse">
+                <option value="">-- Sélectionnez --</option>
+                <option value="court (1 à 2 phrases)">Court (1 à 2 phrases)</option>
+                <option value="moyen (3 à 4 phrases)">Moyen (3 à 4 phrases)</option>
+                <option value="Long (1 à 2 paragraphes)">Long (1 à 2 paragraphes)</option>
+                <option value="Très long (plusieurs paragraphes)">Très long (plusieurs paragraphes)</option>
+            </select>
+
+            <label for="tonalite">Ton de réponse :</label>
+            <select id="tonalite" name="Tonalité de la réponse">
+                <option value="">-- Sélectionnez --</option>
+                <option value="Formel">Formel</option>
+                <option value="Informel">Informel</option>
+                <option value="Convivial">Convivial</option>
+                <option value="Technique">Technique</option>
+                <option value="Humoristique">Humoristique</option>
+                <option value="Académique">Académique</option>
+            </select>
+
+            <label for="style">Style d'écriture :</label>
+            <select id="style" name="Style d'écriture souhaité">
+                <option value="">-- Sélectionnez --</option>
+                <option value="Conversationnel">Conversationnel</option>
+                <option value="Journalistique">Journalistique</option>
+                <option value="Académique">Académique</option>
+                <option value="Créatif">Créatif</option>
+                <option value="Technique">Technique</option>
+                <option value="Persuasif">Persuasif</option>
+				<option value="Tweet">Tweet</option>
+            </select>
+
+            <label for="level">Niveau de détail :</label>
+            <select id="level" name="Niveau de détail souhaité">
+                <option value="">-- Sélectionnez --</option>
+                <option value="Succinct">Succinct</option>
+                <option value="Modéré">Modéré</option>
+                <option value="Approfondi">Approfondi</option>
+                <option value="Exhaustif">Exhaustif</option>
+            </select>
+
+            <label for="Ajout d'exemples ou de références">Inclusion d'exemples ou de références :</label>
+            <select id="Ajout d'exemples ou de références" name="Ajout d'exemples ou de références">
+                <option value="">-- Sélectionnez --</option>
+                <option value="Exemples pratiques">Exemples pratiques</option>
+                <option value="Références scientifiques">Références scientifiques</option>
+                <option value="Études de cas">Études de cas</option>
+                <option value="Statistiques récentes">Statistiques récentes</option>
+                <option value="Clichés culturels">Clichés culturels</option>
+            </select>
+
+            <label for="limites">Limites ou contraintes :</label>
+				<select id="limites" name="Limites ou contraintes à tenir compte" onchange="toggleAutreInput('limites', 'limitesAutre')">
+                <option value="">-- Sélectionnez --</option>
+                <option value="Éviter les sujets politiques">Éviter les sujets politiques</option>
+                <option value="Ne pas utiliser de jargon technique">Ne pas utiliser de jargon technique</option>
+                <option value="Respecter les préférences linguistiques (par exemple, français britannique ou québécois)">Respecter les préférences linguistiques (par exemple, français britannique ou québécois)</option>
+                <option value="Éviter les références à des marques commerciales">Éviter les références à des marques commerciales</option>
+                <option value="Ne pas inclure de spoilers de films ou de séries populaires">Ne pas inclure de spoilers de films ou de séries populaires</option>
+                <option value="Autre">Autre</option>
+            </select>
+
+            <input type="text" id="limitesAutre" name="limitesAutre" placeholder="Précisez les limites" style="display: none;">
+
+            <input type="button" value="Générer le prompt personnalisé" onclick="generatePrompt()">
+        </form>
+
+        <div id="result"></div>
+
+        <script>
+            function toggleAutreInput(selectId, inputId) {
+                var select = document.getElementById(selectId);
+                var input = document.getElementById(inputId);
+                if (select.value === "Autre") {
+                    input.style.display = "block";
+                } else {
+                    input.style.display = "none";
+                }
+            }
+
+            function generatePrompt() {
+                var formElements = document.getElementById('promptForm').elements;
+                var results = '<label for="Résultat ">ChatGPT, voici ma demande :</label><br>';
+                for (var i = 0; i < formElements.length; i++) {
+                    if ((formElements[i].type === 'text' || formElements[i].type === 'select-one') && formElements[i].value !== '') {
+                        results += '<strong>' + formElements[i].name + ' :</strong> ' + formElements[i].value + '<br>';
+                    }
+                }
+                document.getElementById('result').innerHTML = results;
+            }
+			
+			function copyResult() {
+			  var resultElement = document.getElementById('result');
+			  var resultText = resultElement.innerText || resultElement.textContent;
+
+			  // Créez un élément de texte temporaire pour copier le contenu
+			  var tempElement = document.createElement('textarea');
+			  tempElement.value = resultText;
+			  document.body.appendChild(tempElement);
+
+			  // Sélectionne et copie le contenu du texte temporaire
+			  tempElement.select();
+			  tempElement.setSelectionRange(0, 99999); // Pour les navigateurs mobiles
+
+			  // Copie le texte dans le presse-papiers
+			  document.execCommand('copy');
+
+			  // Supprime l'élément de texte temporaire
+			  document.body.removeChild(tempElement);
+
+			  // Affiche un message de confirmation
+			  alert("Le prompt a été copié !");
+			}
+						
+			
+        </script>
+
+<div>
+<button id="copyButton" onclick="copyResult()" class="copy-button">Copier</button>
+</div>
+</body>
+</html>
